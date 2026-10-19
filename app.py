@@ -1,18 +1,53 @@
-import streamlit as st
+elif "ngọt ngào" in mood:
+        st.success(
+            "Gợi ý: **Trà sữa trân châu đường đen** ngọt ngào nạp lại năng"
+            " lượng!"
+        )
+      elif "Stress" in mood:
+        st.success(
+            "Gợi ý: **Trà sữa thái xanh** thanh mát xua tan mọi căng thẳng!"
+        )
+      else:
+        st.success("Gợi ý: **Trà trái cây nhiệt đới** tươi tắn, sảng khoái!")
 
-st.title("🧋 Teaamo - Milk Tea Ordering App")
-st.write("Chào mừng bạn đến với ứng dụng đặt trà sữa của chúng tôi!")
+  with col_m2:
+    st.subheader("🎋 Quẻ Bói Trà Sữa Hằng Ngày")
+    if st.button("🎋 Rút Quẻ Ngay"):
+      que_list = [
+          (
+              "Đại Cát (Đại吉)",
+              "Hôm nay cực hợp uống Trà sữa thái xanh, tình duyên thăng hoa!",
+          ),
+          (
+              "Cát Tường",
+              "Hồng trà kem cheese sẽ mang lại tài lộc và may mắn cả ngày!",
+          ),
+          (
+              "Bình An",
+              "Một ly Trà trái cây nhiệt đới mang lại ngày mới nhẹ nhàng.",
+          ),
+      ]
+      q, meaning = random.choice(que_list)
+      st.warning(f"Quẻ của bạn: **{q}** — *{meaning}*")
 
-# Menu trà sữa
-menu = {
-    "Trà sữa trân châu đường đen": 35000,
-    "Trà sữa thái xanh": 30000,
-    "Hồng trà kem cheese": 40000
-}
+with tab4:
+  st.header("⭐ Tích Điểm Thành Viên & Đánh Giá")
+  st.metric(
+      label="Điểm tích lũy hiện tại của bạn",
+      value=f"{st.session_state.points} Điểm",
+  )
 
-selected_item = st.selectbox("Chọn món trà sữa:", list(menu.keys()))
-quantity = st.number_input("Số lượng:", min_value=1, value=1)
+  st.subheader("✍️ Đánh Giá Chất Lượng Dịch Vụ")
+  review_text = st.text_area("Cảm nhận của bạn về hương vị và ứng dụng:")
+  rating = st.slider("Chấm số sao:", 1, 5, 5)
+  if st.button("Gửi Đánh Giá"):
+    st.session_state.reviews.append({"text": review_text, "stars": rating})
+    st.success(
+        "Cảm ơn bạn đã đánh giá! Phản hồi của bạn giúp quán ngày càng phát"
+        " triển."
+    )
 
-if st.button("Đặt món ngay"):
-    total = menu[selected_item] * quantity
-    st.success(f"Bạn đã đặt thành công {quantity} phần {selected_item}! Tổng tiền: {total:,} VNĐ")
+  if st.session_state.reviews:
+    st.markdown("### 💬 Đánh Giá Từ Khách Hàng Khác:")
+    for r in st.session_state.reviews:
+      st.write(f"- {'⭐' * r['stars']}: *{r['text']}*")
